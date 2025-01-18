@@ -1,6 +1,0 @@
-.gitignore
-.backups
-.venv/
-__pycache__/
-*.pyc
-*.log

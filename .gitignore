@@ -1,3 +1,4 @@
+.gitignore
 .backups
 .venv/
 __pycache__/

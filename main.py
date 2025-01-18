@@ -526,30 +526,26 @@ class SettingsWindow:
         self.district_mapping = {}
         
         # Ana pencere ayarları
-        self.window = ttk.Toplevel(root)
+        self.window = ttk.Toplevel(self.root)
         self.window.title("Ayarlar")
+        
+        # Pencere konumu ve boyutu
         screen_x, screen_y = self.window.winfo_screenwidth(), self.window.winfo_screenheight()
-        self.window.geometry(f"400x600+{screen_x//2-250}+{screen_y//2-325}")
+        self.window.geometry(f"400x600+{screen_x//2-200}+{screen_y//2-300}")
+        self.window.resizable(False, False)
         
         # Ana container
         self.main_frame = ttk.Frame(self.window, padding=10)
         self.main_frame.pack(fill=BOTH, expand=YES)
         
-        # Renklerin var olduğundan emin ol
-        if 'COLORS' not in self._settings:
-            self._settings['COLORS'] = {
-                'standard': {'background': "#0d0338", "text": "#ebebeb"},
-                'warning':  {'background': "#530251", "text": "#f4f4f4", "trigger": 45 },
-                'critical': {'background': "#1053c2", "text": "#f0f0f0", "trigger": 15 }
-            }
-
         # Mevcut konum bilgisi
         loc = self._settings['LOCATION']
         ttk.Label(
             self.main_frame,
             text=f"Aktif Konum: {loc['district']['name']} / {loc['city']['name']}",
-            style="primary.TLabel",
-            font=("Helvetica", 11, "bold")
+            # style="primary.TLabel",
+            # font=("Segoe Ui", 11, "bold"),
+            font=(11)
         ).pack(pady=5)
         
         # LabelFrame'leri oluştur
@@ -561,9 +557,17 @@ class SettingsWindow:
         self.status = ttk.Label(
             self.main_frame, 
             text="Hazır",
-            style="primary.TLabel"
+            # style="primary.TLabel"
         )
         self.status.pack(pady=10)
+
+        # Renklerin var olduğundan emin ol
+        if 'COLORS' not in self._settings:
+            self._settings['COLORS'] = {
+                'standard': {'background': "#0d0338", "text": "#ebebeb"},
+                'warning':  {'background': "#530251", "text": "#f4f4f4", "trigger": 45 },
+                'critical': {'background': "#1053c2", "text": "#f0f0f0", "trigger": 15 }
+            }
 
     def _create_location_frame(self):
         location_frame = ttk.LabelFrame(
@@ -971,7 +975,8 @@ if __name__ == "__main__":
         tools.configure_logging("INFO")
         logger.info("-------Program başlatıldı-------")
 
-        root = tk.Tk()
+        # root = tk.Tk() yerine
+        root = ttk.Window(themename="darkly")
         root.withdraw()  # Ana pencereyi gizle
         clock_widget = ClockWidget(root)
         root.clock_widget = clock_widget  # ClockWidget'a referans ekle
